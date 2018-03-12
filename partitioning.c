@@ -3,10 +3,12 @@
 #include <omp.h>
 #include <math.h>
 #include "partitioning.h"
+#include <limits.h>
 char filename[]= "input.txt";
 int main() {
     int nbNodes = countNLines();
     NODE graph[nbNodes];
+    buildGraph(nbNodes, graph);
     
 }
 
@@ -16,7 +18,8 @@ void buildGraph( int nbNodes, NODE graph[nbNodes]){
     
     file = fopen( filename, "r");
     if (file) {
-        //while (fscanf(file, "%s", str)!=EOF)
+        while (fgets(str, INT_MAX, file)!=NULL)
+            printf("line : %s", str);
             
         fclose(file);
     }
@@ -42,5 +45,4 @@ int countNLines(){
     fclose(fp);
     return count;
 }
-        
     
