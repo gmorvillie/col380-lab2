@@ -1,12 +1,12 @@
 all: partitioning
 
-partitioning.o: partitioning.c partitioning.h
-	gcc -Wall partitioning.c -c
+partitioning.o: partitioning.cpp partitioning.h
+	g++ -Wall -std=c++11 partitioning.cpp -c 
 	
 
 	
 partitioning:  partitioning.o 
-	gcc partitioning.o -o partitioning -lm
+	g++ partitioning.o -o partitioning -lm
 
 
 
