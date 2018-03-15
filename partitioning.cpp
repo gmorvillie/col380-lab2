@@ -27,20 +27,34 @@ void string_to_array(vector<int> &v, string s)
 
 
 void randomMatch( graph source, vector < pair<int, int> > matching){
-    auto rng = std::default_random_engine {};
-    std::shuffle(std::begin(source.vtx), std::end(source.vtx), rng);
-    vector <vertex>::iterator i1;
- 
-    for (i1=source.vtx.begin();i1!=source.vtx.end();++i1)
-    {   // randomly iterates over the vertices
-        if(!i1->match){
-            
-            //  TODO-select random non matched neighbour
-            //  Problem : only the id of neighbour is store. //  possible to store the vertex ?
+    int nbMtch = 2;
+    
+    for( int i3 = 0; i3<nbMtch; i3++){        // the number of matching that are calculated can vary. How to choose it ?
+        int tempSize;
+        matching.clear();
+        auto rng = std::default_random_engine {};
+        std::shuffle(std::begin(source.vtx), std::end(source.vtx), rng);
+        vector <vertex>::iterator i1;
+     
+        for (i1=source.vtx.begin();i1!=source.vtx.end();++i1)
+        {   // randomly iterates over the vertices
+            if(!i1->match){
+                
+                //  TODO-select random non matched neighbour
+                //  Problem : only the id of neighbour is stored. //  possible to store the vertex ?
+            }
         }
+        if(tempSize<matching.size()) 
+            tempSize=matching.size();
     }
+}
+
+void coarse(graph source, vector < pair<int, int> > matching){
     
 }
+    
+
+
 void buildGraph( graph &init_graph ){
     
     string str;      //string to read data 
