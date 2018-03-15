@@ -18,9 +18,15 @@ void buildGraph( int nbNodes, NODE graph[nbNodes]){
     
     file = fopen( filename, "r");
     if (file) {
-        while (fgets(str, INT_MAX, file)!=NULL)
+        while (fgets(str, INT_MAX, file)!=NULL){
+            int i =0;
+            int num;
+            while( sscanf(str, "%d", &num) > 0 && i < nbNodes && num >0) {
+                printf("%d-", num);
+                i++;
+            }
             printf("line : %s", str);
-            
+        }
         fclose(file);
     }
 }
