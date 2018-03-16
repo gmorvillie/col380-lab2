@@ -1,7 +1,7 @@
 all: partitioning
 
 partitioning.o: partitioning.cpp partitioning.h
-	g++ -Wall -std=c++11 partitioning.cpp -c 
+	g++ -w -std=c++11 partitioning.cpp -c 
 	
 
 	

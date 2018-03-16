@@ -7,7 +7,8 @@ public:
     int deg; 
     bool match;
     vector<int> neighbour;  //for storing ids of all neighbours
-    int id; 
+    int id;
+     vector<vertex *> pneighbour;
 
 
     public:
@@ -24,9 +25,16 @@ public:
 
     void print_vertex()
     {
-        cout<<"deg: "<<deg <<" match: "<<match<<" neighbours: ";
-        for(int i=0;i<deg;i++)
-            cout<<neighbour[i]<<" ";
+        cout<<"id"<<id<<"deg: "<<deg <<" match: "<<match<<" neighbours: ";
+        for(int i=0;i<deg;i++){
+            if(pneighbour[i]!=NULL){
+                cout<<pneighbour[i]->id<<"pointer ";
+            }else{
+                
+                cout<<neighbour[i]<<" ";
+            }
+            
+        }
         cout<<endl;
     }
 };

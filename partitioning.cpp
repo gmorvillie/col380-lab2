@@ -26,7 +26,7 @@ void string_to_array(vector<int> &v, string s)
 }
 
 
-void randomMatch( graph source, vector < pair<int, int> > matching){
+void randomMatch( graph source, vector < pair<vertex, vertex> > matching){
     int nbMtch = 2;
     
     for( int i3 = 0; i3<nbMtch; i3++){        // the number of matching that are calculated can vary. How to choose it ?
@@ -38,11 +38,28 @@ void randomMatch( graph source, vector < pair<int, int> > matching){
      
         for (i1=source.vtx.begin();i1!=source.vtx.end();++i1)
         {   // randomly iterates over the vertices
+            /*
             if(!i1->match){
                 
-                //  TODO-select random non matched neighbour
-                //  Problem : only the id of neighbour is stored. //  possible to store the vertex ?
-            }
+                
+                auto randomng = std::default_random_engine {};
+                std::shuffle(std::begin(i1->pneighbour), std::end(i1->pneighbour), randomng);
+                
+                vector <vertex>::iterator i6;
+                for (i6=i1->pneighbour.begin();i6!=i1->pneighbour.end();++i6){          //careful, the algo of the paper says pick one random unmatched neighbor. here we are randomly iterating over neighbors to find an unmatched one
+                        if(!i6->match){
+                            pair<vertex *, vertex *> match_entry (*i6,  *i1);
+                            matching.push_back(match_entry);
+                            i6->match=true;
+                            i1->match=true;
+                            break;          //careful for parallel version about break !!!
+                            
+                        }
+                    
+                 }
+                 
+                
+            }*/
         }
         if(tempSize<matching.size()) 
             tempSize=matching.size();
@@ -81,17 +98,27 @@ void buildGraph( graph &init_graph ){
             id++;
         }
     }
-
+    for(int i4 = 0; i4<init_graph.num_nodes;i4++){      // update the pointers to neighbors --> inefficient !
+        
+        for(int i5 = 0; i5<init_graph.vtx[i4].deg;i5++){
+            
+            if(init_graph.vtx[i4].neighbour[i5]== init_graph.vtx[init_graph.vtx[i4].neighbour[i5]-1].id){        //if the ith element has id i --> faster than search for id i
+                
+                init_graph.vtx[i4].pneighbour.push_back(&init_graph.vtx[i5]);       //in the list of pointers to neighbours, add the adress of this neighbour
+            }
+                
+        }
+    }
 }
 
 int main() {
 
-vector < pair<int, int> > matching;
+//vector < pair<vertex, vertex> > matching;
 graph init_graph;
 buildGraph (init_graph) ;
 
-randomMatch( init_graph, matching);
-//init_graph.print_graph();
+//randomMatch( init_graph, matching);
+init_graph.print_graph();
 }
 
 // int countNLines(){
