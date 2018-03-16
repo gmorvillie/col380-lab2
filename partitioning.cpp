@@ -26,43 +26,49 @@ void string_to_array(vector<int> &v, string s)
 }
 
 
-void randomMatch( graph source, vector < pair<vertex, vertex> > matching){
-    int nbMtch = 2;
+void randomMatch( graph source, vector <pair<vertex,vertex>> * matching){
+    int nbMtch = 1;
     
     for( int i3 = 0; i3<nbMtch; i3++){        // the number of matching that are calculated can vary. How to choose it ?
         int tempSize;
-        matching.clear();
+        (*matching).clear();
         auto rng = std::default_random_engine {};
         std::shuffle(std::begin(source.vtx), std::end(source.vtx), rng);
         vector <vertex>::iterator i1;
      
         for (i1=source.vtx.begin();i1!=source.vtx.end();++i1)
         {   // randomly iterates over the vertices
-            /*
+            
             if(!i1->match){
                 
                 
                 auto randomng = std::default_random_engine {};
                 std::shuffle(std::begin(i1->pneighbour), std::end(i1->pneighbour), randomng);
                 
-                vector <vertex>::iterator i6;
+                vector <vertex *>::iterator i6;
+                
                 for (i6=i1->pneighbour.begin();i6!=i1->pneighbour.end();++i6){          //careful, the algo of the paper says pick one random unmatched neighbor. here we are randomly iterating over neighbors to find an unmatched one
-                        if(!i6->match){
-                            pair<vertex *, vertex *> match_entry (*i6,  *i1);
-                            matching.push_back(match_entry);
-                            i6->match=true;
+                        if(!(*i6)->match){
+                            
+                            
+                            pair<vertex, vertex> match_entry (**i6,  *i1);
+                            
+                            (*matching).push_back(match_entry);
+                            (*i6)->match=true;
                             i1->match=true;
                             break;          //careful for parallel version about break !!!
                             
+                            
                         }
+                        
                     
                  }
                  
                 
-            }*/
+            }
         }
-        if(tempSize<matching.size()) 
-            tempSize=matching.size();
+        if(tempSize<matching->size()) 
+            tempSize=matching->size();
     }
 }
 
@@ -101,10 +107,12 @@ void buildGraph( graph &init_graph ){
     for(int i4 = 0; i4<init_graph.num_nodes;i4++){      // update the pointers to neighbors --> inefficient !
         
         for(int i5 = 0; i5<init_graph.vtx[i4].deg;i5++){
+            int n=init_graph.vtx[i4].neighbour[i5];
             
-            if(init_graph.vtx[i4].neighbour[i5]== init_graph.vtx[init_graph.vtx[i4].neighbour[i5]-1].id){        //if the ith element has id i --> faster than search for id i
+            
+            if(n== init_graph.vtx[n-1].id){        //if the ith element has id i --> faster than search for id i
                 
-                init_graph.vtx[i4].pneighbour.push_back(&init_graph.vtx[i5]);       //in the list of pointers to neighbours, add the adress of this neighbour
+                init_graph.vtx[i4].pneighbour.push_back(&init_graph.vtx[n-1]);       //in the list of pointers to neighbours, add the adress of this neighbour
             }
                 
         }
@@ -113,33 +121,18 @@ void buildGraph( graph &init_graph ){
 
 int main() {
 
-//vector < pair<vertex, vertex> > matching;
+vector < pair<vertex, vertex> > matching;
 graph init_graph;
 buildGraph (init_graph) ;
 
-//randomMatch( init_graph, matching);
+randomMatch( init_graph, &matching);
+cout<< "matching 1" <<endl;
+for(int j =0; j< matching.size(); j++){
+    cout<<matching[j].first.id<<" "<<matching[j].second.id<<endl;
+}
+
+
 init_graph.print_graph();
 }
 
-// int countNLines(){
-//     char c;
-//     FILE *fp;
-//     fp = fopen(filename, "r");
-//     int count =0;
-//     // Check if file exists
-//     if (fp == NULL)
-//     {
-//         printf("Could not open file %s", filename);
-//         return 0;
-//     }
- 
-//     // Extract characters from file and store in character c
-//     for (c = getc(fp); c != EOF; c = getc(fp))
-//         if (c == '\n') // Increment count if this character is newline
-//             count = count + 1;
- 
-//     // Close the file
-//     fclose(fp);
-//     return count;
-// }
-    
+

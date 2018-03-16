@@ -25,10 +25,10 @@ public:
 
     void print_vertex()
     {
-        cout<<"id"<<id<<"deg: "<<deg <<" match: "<<match<<" neighbours: ";
+        cout<<"id "<<id<<"deg: "<<deg <<" match: "<<match<<" neighbours: ";
         for(int i=0;i<deg;i++){
             if(pneighbour[i]!=NULL){
-                cout<<pneighbour[i]->id<<"pointer ";
+                cout<<pneighbour[i]->id << "p ";
             }else{
                 
                 cout<<neighbour[i]<<" ";
